@@ -18,15 +18,16 @@ conda create -n pbccs pbccs
 conda create -n isoseq3 isoseq3
 ```
 
-### Load pbccs
-```
-conda activate pbccs
-```
 ### Create a sample list to store sample names. This list will be used in parallel process below.
 ```
 ls *subreads.bam | sed 's/.subreads.bam//' > list.txt
 ```
 ### CLR to CCS
+Load pbccs in conda environment
+```
+conda activate pbccs
+```
+
 CCS process utilitize all CPUs detected on the device, it's a CPU heavy step, so run only 1 sample `-j 1` at a time.
 ```
 cat list.txt | parallel -j1 "ccs {}.subreads.bam {}.ccs.bam --min-rq 0.9 --report-file ccs_report{#}.txt >& log.css.s{#}.txt"
