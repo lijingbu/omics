@@ -49,6 +49,7 @@ conda deactivate
 
 # Refine
 conda activate isoseq3
+# Note: change the "Clontech_5p--NEB_Clontech_3p" if your primer sequences have different names.
 cat list.txt | parallel "isoseq3 refine --require-polya {}.fl.Clontech_5p--NEB_Clontech_3p.bam primers.fasta {}.flnc.bam >& log.refine.s{#}.txt" 
 
 # Merge SMRT cells
