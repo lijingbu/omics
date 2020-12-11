@@ -29,6 +29,13 @@ conda install -c conda-forge parallel
 conda create -n pbccs pbccs
 conda create -n isoseq3 isoseq3
 
+# check primer
+cat primers.fasta
+# >Clontech_5p
+# AAGCAGTGGTATCAACGCAGAGTACATGGGG
+# >NEB_Clontech_3p
+# GTACTCTGCGTTGATACCACTGCTT
+
 # list for parallel
 ls *subreads.bam | sed 's/.subreads.bam//' > list.txt
 
@@ -90,6 +97,15 @@ conda create -n pbccs pbccs
 conda create -n isoseq3 isoseq3
 ```
 
+### Check primer file
+```
+cat primers.fasta
+
+>Clontech_5p
+AAGCAGTGGTATCAACGCAGAGTACATGGGG
+>NEB_Clontech_3p
+GTACTCTGCGTTGATACCACTGCTT
+```
 ### Create a sample list to store sample names. This list will be used in parallel process below.
 ```
 ls *subreads.bam | sed 's/.subreads.bam//' > list.txt
@@ -120,6 +136,7 @@ conda deactivate
 conda activate isoseq3
 cat list.txt | parallel "isoseq3 refine --require-polya {}.fl.Clontech_5p--NEB_Clontech_3p.bam primers.fasta {}.flnc.bam >& log.refine.s{#}.txt" 
 ```
+Note: change the `Clontech_5p--NEB_Clontech_3p` if your primer sequences have different names.
 
 ### Merge SMRT cells
 ```
