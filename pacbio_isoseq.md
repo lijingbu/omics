@@ -1,34 +1,55 @@
-### IsoSeq3 workflow using conda and GNU-parallel
+# IsoSeq3 clustering workflow using conda and GNU-parallel
+Refer to the detailed description at https://github.com/PacificBiosciences/IsoSeq/blob/master/isoseq-clustering.md
 
+Required PacBio packages: ccs, lima, isoseq3
 
-# Load pbccs
+### Install conda
+A very convenient package managment system for all OS.
+Install conda and add bioconda channels.
+https://bioconda.github.io/user/install.html
+
+### Install required PacBio packages if not previousely installed
+To install GNU-parallel in conda base environment
+```conda install -c conda-forge parallel```
+
+`pbccs` package includes `ccs` and ``lima`` package. Here we put the two package into two separate conda environments, in case use them separately in the future.
+```
+conda create -n pbccs pbccs
+conda create -n isoseq3 isoseq3
+```
+
+### Load pbccs
 ```
 conda activate pbccs
 ```
-
-# CLR to CCS
+### Create a sample list to store sample names. This list will be used in parallel process below.
 ```
 ls *subreads.bam | sed 's/.subreads.bam//' > list.txt
+```
+### CLR to CCS
+CCS process utilitize all CPUs detected on the device, it's a CPU heavy step, so run only 1 sample `-j 1` at a time.
+```
 cat list.txt | parallel -j1 "ccs {}.subreads.bam {}.ccs.bam --min-rq 0.9 --report-file ccs_report{#}.txt >& log.css.s{#}.txt"
 ```
 
-# Adaptor trimming
+### Adaptor trimming
+Trimming can be done in parallel, note the drop of `-j 1`. Usually 2 SMRT cells, but if too slow, run with `-j N` where `N` is number of parallel jobs to run.
 ```
 cat list.txt | parallel "lima {}.ccs.bam primers.fasta {}.fl.bam --isoseq --peek-guess >& log.lima.s{#}.txt" 
 ```
-
-# Refine
+To be tidy, run `conda deactivate` to deactivate `pbccs` environment.
+### Refine
 ```
 conda activate isoseq3
 cat list.txt | parallel "isoseq3 refine --require-polya {}.fl.Clontech_5p--NEB_Clontech_3p.bam primers.fasta {}.flnc.bam >& log.refine.s{#}.txt" 
 ```
 
-# Merge SMRT cells
+### Merge SMRT cells
 ```
 ls *.flnc.bam  > flnc.fofn
 ```
 
-# Clustering
+### Clustering
 ```
 isoseq3 cluster flnc.fofn clustered.bam --verbose --use-qvs >& log.cluster.txt & 
 
@@ -37,8 +58,9 @@ sed -i 's/.*\r//' log.cluster.txt
 zcat clustered.hq.fasta.gz | sed 's|>transcript/|>hq_trans_|; s/ / high_quality /' > clustered.HQ.trans.fasta 
 zcat clustered.lq.fasta.gz | sed 's|>transcript/|>lq_trans_|; s/ / low_quality /' > clustered.LQ.trans.fasta
 ```
+To be tidy, run `conda deactivate` to deactivate `isoseq3` environment.
 
-# report
+### Report
 ```
 cat list.txt | parallel "echo 'Sample:{#}__{}' > tmp{#}.txt 
 head -2 ccs_report{#}.txt >> tmp{#}.txt 
@@ -59,3 +81,18 @@ grep -e NumRecords -e TotalLength clustered.transcriptset.xml | sed 's|</.*||; s
 cat isoseq_report.txt | column -s $'\t' -t -o $'\t|\t'
 ```
 
+Report looks like
+```
+Sample                   | 1__SEL34534_m432423_7575423_34236 | 2__SEL34534_m432423_345435_345576
+ZMWs input          (A)  | 668324                            | 652591
+ZMWs generating CCS (B)  | 494610 (74.01%)                   | 461709 (70.75%)
+ZMWs primer filtered (B) | 436522 (88%)                      | 408402 (88%)
+Refine num_reads_flnc    | 430633                            | 403479
+num_reads_flnc_polya     | 430414                            | 403291
+-----------
+Cluster total            | 833705
+clustered.hq.fasta.gz    | 54105
+clustered.lq.fasta.gz    | 89
+TotalLength              | 78596733
+NumRecords               | 54194
+```
