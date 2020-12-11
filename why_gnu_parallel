@@ -1,0 +1,16 @@
+### Why GNU-parallel?
+
+With GNU-parallel one can easily transform workflows to run steps in parallel. Jobs run in parallel, and it's easy to change commands, options and number of parallel jobs, no more for loops.
+
+### Example 1
+```bash
+seq 1 5 | parallel "echo 'Welcome {} times"
+```
+is equal to
+```bash
+for i in {1..5}
+do
+   echo "Welcome $i times"
+done
+```
+
