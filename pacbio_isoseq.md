@@ -1,5 +1,5 @@
 # IsoSeq3 clustering workflow using conda and GNU-parallel
-This workflow process PacBio subreads.bam files, clean barcode primers, refine, and cluster to get high quality transcripts, and finally putout report numbers for each step like:
+This workflow process PacBio subreads.bam files, clean barcode primers, refine, and cluster to get high quality transcripts, and finally putout report numbers for each step like below.
 ```
 Sample                   | 1__SEL34534_m432423_7575423_34236 | 2__SEL34534_m432423_345435_345576
 ZMWs input          (A)  | 668324                            | 652591
@@ -18,6 +18,9 @@ NumRecords               | 54194
 Refer to the detailed description at https://github.com/PacificBiosciences/IsoSeq/blob/master/isoseq-clustering.md
 
 Required PacBio packages: ccs, lima, isoseq3
+
+### Why GNU-parallel?
+With GNU-parallel one can easily transform workflows to run steps in parallel. Jobs run in parallel, and it's easy to change commands, options and number of parallel jobs, no more for loops. 
 
 ### Quick glance
 ```
