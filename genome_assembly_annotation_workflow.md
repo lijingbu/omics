@@ -2,7 +2,7 @@
 Notes below were shared for open discussion. Feel free to leave comments (in Issues?) or contact me for questions or suggestions.
 Most of the tools can be found by `conda search tool_name` and installed by `conda create -name tool_name tool_name`. Refer here to [Install conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html). 
 
-## Genome assembly from PacBio HiFi reads (high accuracy): 
+## Genome assembly from PacBio HiFi reads (high accuracy long reads): 
 1. PacBio HiFi reads assembly [hifiasm](https://github.com/chhylp123/hifiasm) or [HiCanu](https://github.com/marbl/canu).
 2. Filter contamination [blobtools2](https://github.com/blobtoolkit/blobtools2). 
 3. Scaffolding if long range info data like Hi-C, [Omni-C](https://dovetailgenomics.com/omni-c/), [BioNano Genomics](https://bionanogenomics.com/technology/genome-assembly/).
