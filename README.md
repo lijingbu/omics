@@ -11,3 +11,5 @@ With GNU-parallel one can easily transform workflows to run steps in parallel. J
 ## [RNA-Seq experiment design recommendations](https://github.com/lijingbu/omics/blob/main/RNA-Seq_experiment_design_recommendations.md)
 Frequently asked questions about RNA-Seq experiment design.
 
+## [Genome Assembly and Annotation Workflow](https://github.com/lijingbu/omics/blob/main/genome_assembly_annotation_workflow.md)
+Notes for de novo genome assembly and annotation.
