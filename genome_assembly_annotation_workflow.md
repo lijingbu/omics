@@ -39,3 +39,4 @@ After initial assembly and before contamination filtering, the common values to 
     3. Functional domain predictionfor all predicted proteins ([InterProScan](https://interproscan-docs.readthedocs.io/en/latest/)). 
 
 ## **Check out [GenSAS](https://www.gensas.org/), a free online genome annotation server.**
+The GenSAS server is free to use without exposing the genome assembly to the public, and it offers functions from RNA-Seq or protein evidence upload to the final Apollo interface for manual correction and sharing. NCBI also offers a genome annotation service [NCBI Eukaryotic Genome Annotation Pipeline](https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/) for free, but the genome assembly has to be made public before annotation. Also, you may need to write a paragraph of statement (https://www.ncbi.nlm.nih.gov/genome/annotation_euk/policy/) saying why the genome is important to be annotated before it's put into the annotation queue.
