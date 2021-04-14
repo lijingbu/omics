@@ -7,14 +7,22 @@ Most of the tools can be found by `conda search tool_name` and installed by `con
 2. Filter contamination [blobtools2](https://github.com/blobtoolkit/blobtools2). 
 3. Scaffolding if long range info data like Hi-C, [Omni-C](https://dovetailgenomics.com/omni-c/), [BioNano Genomics](https://bionanogenomics.com/technology/genome-assembly/).
 4. Scaffolds/contigs sort and rename ([GenomeTools](http://genometools.org/), [bedtools](https://bedtools.readthedocs.io/en/latest/)).
-5. Evaluation: [assembly-stats](https://github.com/sanger-pathogens/assembly-stats), [QUAST](https://github.com/ablab/quast), [BUSCO](https://busco.ezlab.org/).
-
+5. Evaluation: [assembly-stats](https://github.com/sanger-pathogens/assembly-stats), [QUAST](https://github.com/ablab/quast), [BUSCO](https://busco.ezlab.org/), [Bandage](https://rrwick.github.io/Bandage/).
 
 ## Genome assembly from PacBio CLR reads (long but low accuracy reads)
 1. CLR reads polishing and assembly ([Canu](https://github.com/marbl/canu)).
 2. Illumina PE reads polish ([Pilon](https://github.com/broadinstitute/pilon/wiki)).
 3. Scaffolding with Illumina PE reads ([SSPACE](https://github.com/nsoranzo/sspace_basic)).
 4. Evaluation: [assembly-stats](https://github.com/sanger-pathogens/assembly-stats), [QUAST](https://github.com/ablab/quast), [BUSCO](https://busco.ezlab.org/).
+
+## Tips for genome assembly evaluation:
+After initial assembly and before contamination filtering, the common values to check for genome assembly quality are listed below. After contamination, these numbers may change. 
+1. **Genome size** (whether close to expectation or consistent among different assembly methods/options); 
+2. **N50** (median like value, the longer the better)
+3. **Number of contigs/scaffolds** (smaller is better). 
+4. Also the **maximum and minimum length of contig/scaffolds**. These values above could all be calculated quickly by the [assembly-stats](https://github.com/sanger-pathogens/assembly-stats) (-t option gives nice tabular format) listed above. 
+5. [BUSCO](https://busco.ezlab.org/) also helps to show if the core orthologs were covered.   
+6. Most assemblers will provide assembly graphs e.g. GFA files, which can be viewed by the [Bandage](https://rrwick.github.io/Bandage/).
 
 
 ## Genome annotation
